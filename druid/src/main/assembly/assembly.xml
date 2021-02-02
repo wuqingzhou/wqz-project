@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <!-- 可自定义，这里指定的是项目环境 -->
+    <!-- spring-boot-assembly-local-1.0.RELEASE.tar.gz  -->
+    <id>${project.artifactId}-${project.version}</id>
+
+    <!-- 打包的类型，如果有N个，将会打N个类型的包 -->
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <includeBaseDirectory>true</includeBaseDirectory>
+
+    <fileSets>
+        <!--
+            0755->即用户具有读/写/执行权限，组用户和其它用户具有读写权限；
+            0644->即用户具有读写权限，组用户和其它用户具有只读权限；
+        -->
+        <!-- 将编译后target/classes输出到打包后的/module/target/classes目录中 -->
+        <fileSet>
+            <directory>${build.outputDirectory}</directory>
+            <outputDirectory>/module/target/classes</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <!-- 将工程pom.xml放入到打包后的/module目录中 -->
+        <fileSet>
+            <directory>${basedir}</directory>
+            <includes>
+                <include>pom.xml</include>
+            </includes>
+            <outputDirectory>/module</outputDirectory>
+        </fileSet>
+        <!-- 将父pom.xml放入到打包后的根目录，即是module上一层目录 -->
+        <!-- 如果工程没有父pom文件，请把这段注释掉 -->
+        <fileSet>
+            <directory>${basedir}/../</directory>
+            <includes>
+                <include>di-parent/pom.xml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+</assembly>

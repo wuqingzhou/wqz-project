@@ -1,0 +1,46 @@
+server:
+  servlet:
+    context-path: /myd
+
+# 建议使用application.yml配置文件，而不是application.properties配置文件。原因：前者树状结构一目了然，解决了中文编码问题
+spring:
+  profiles:
+    active: dev
+  redis:
+    host: localhost
+    port: 6379
+  liquibase:
+    enabled: false
+    change-log: classpath:liquibase/changelog.xml
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/orcl
+    username: wqz
+    password: wqz
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filters: stat,wall
+      stat-view-servlet:
+        enabled: true
+        reset-enable: false
+        url-pattern: /druid/*
+        login-username: wqz
+        login-password: wqz
+      web-stat-filter:
+        session-stat-enable: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        url-pattern: /*
+        profile-enable: true
+        enabled: true
+      initial-size: 1
+      maxActive: 10
+      min-idle: 5
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.wqz.example.springboot.model
+  configuration:
+    jdbc-type-for-null: null
+    map-underscore-to-camel-case: true
